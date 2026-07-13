@@ -6,7 +6,22 @@
 #       tld-not-cn 已覆盖大部分非 .cn 域名
 #       gfw 已覆盖被墙域名
 #       这里只放个人需要强制代理的 .cn 域名或其他漏网之鱼
-#
-# 示例（按需启用）:
-# +.deepseek.com
-# +.perplexity.ai
+
+# --- 影视刮削 (Emby/Jellyfin) ---
++.themoviedb.org
++.tmdb.org
++.thetvdb.com
++.fanart.tv
+
+# --- Telegram ---
+api.telegram.org
+
+# --- 消息通知 ---
+qyapi.weixin.qq.com
+frodo.douban.com
++.slack.com
+
+# --- 开发工具 ---
++.pypi.org
++.github.com
++.githubusercontent.com
