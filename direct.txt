@@ -1,0 +1,148 @@
+# 直连域名规则（国内可访问）
+# 格式说明：
+#   example.com        - 精确匹配该域名（不含子域名）
+#   +.example.com      - 匹配该域名及所有子域名
+#
+# 使用方式：在 Mihomo/Clash 中通过 rule-provider 加载
+
+# --- 国内互联网巨头 ---
++.baidu.com
++.bdimg.com
++.bdstatic.com
++.qq.com
++.qqyun.com
++.gtimg.com
++.qpic.cn
++.tencent.com
++.tencent-cloud.com
++.weixin.com
++.wechat.com
++.alibaba.com
++.aliyun.com
++.alicdn.com
++.alibabacorp.com
++.taobao.com
++.tmall.com
++.1688.com
++.jd.com
++.jdpay.com
++.360.com
++.360safe.com
++.360.cn
++.xiaomi.com
++.mi.com
++.miui.com
++.bytedance.com
++.douyin.com
++.toutiao.com
++.pinduoduo.com
++.meituan.com
++.dianping.com
++.sina.com.cn
++.sinaimg.cn
++.weibo.com
++.sohu.com
++.netease.com
++.163.com
++.126.com
+
+# --- 国内视频 & 直播 ---
++.bilibili.com
++.biliimg.com
++.hdslb.com
++.bilivideo.com
++.iqiyi.com
++.qiyi.com
++.youku.com
++.tudou.com
++.vip.com
++.mgtv.com
++.sohu.tv
++.pptv.com
++.kuaishou.com
++.huya.com
++.douyu.com
+
+# --- 国内音乐 & 音频 ---
++.music.163.com
++.kuwo.cn
++.kugou.com
++.ximalaya.com
++.lizhi.fm
+
+# --- 国内云服务 ---
++.qiniu.com
++.qiniucdn.com
++.upyun.com
++.upyuncs.com
++.ksyun.com
++.jdcloud.com
++.qingcloud.com
++.ucloud.cn
++.baishancloud.com
+
+# --- 国内 CDN & 静态资源 ---
++.aliyuncs.com
++.aegis.com
++.yunjiasu.com
++.tencent-cloud.cn
+
+# --- 国内常用服务 ---
++.zhihu.com
++.zhimg.com
++.csdn.net
++.csdnimg.cn
++.jianshu.com
++.segmentfault.com
++.oschina.net
++.gitee.com
++.v2ex.com
++.cnblogs.com
++.51cto.com
++.imooc.com
++.juejin.cn
++.juejin.im
++.acfun.cn
++.zcool.com.cn
++.huaban.com
++.douban.com
++.doubanio.com
+
+# --- 国内邮箱 ---
++.qqmail.com
++.mail.qq.com
++.mail.163.com
++.mail.126.com
++.mail.sina.com.cn
++.mail.sohu.com
+
+# --- 国内政府 & 教育 ---
++.gov.cn
++.edu.cn
++.ac.cn
+
+# --- 国内新闻 & 媒体 ---
++.people.com.cn
++.xinhuanet.com
++.cctv.com
++.cntv.cn
++.china.com.cn
++.chinadaily.com.cn
++.gmw.cn
++.youth.cn
++.ce.cn
++.huanqiu.com
+
+# --- 地图 & 出行 ---
++.amap.com
++.autonavi.com
++.ditu.amap.com
++.map.baidu.com
++.ditu.google.cn
+
+# --- 国内 AI 服务 ---
++.kimi.moonshot.cn
++.doubao.com
++.yiyan.baidu.com
++.tongyi.aliyun.com
++.qwen.ai

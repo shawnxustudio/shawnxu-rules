@@ -1,0 +1,122 @@
+# 需要代理的域名规则
+# 格式说明：
+#   example.com        - 精确匹配该域名（不含子域名）
+#   +.example.com      - 匹配该域名及所有子域名
+#
+# 使用方式：在 Mihomo/Clash 中通过 rule-provider 加载
+
+# --- AI 服务 ---
++.openai.com
++.anthropic.com
++.claude.ai
++.chatgpt.com
++.gemini.google.com
++.copilot.microsoft.com
++.deepseek.com
++.perplexity.ai
++.midjourney.com
+
+# --- 开发工具 & 代码托管 ---
++.github.com
++.githubassets.com
++.githubusercontent.com
++.gitlab.com
++.bitbucket.com
++.sourceforge.net
++.stackoverflow.com
++.stackexchange.com
++.npmjs.org
++.pypi.org
++.pypi.python.org
++.nuget.org
++.maven.org
++.mvnrepository.com
++.crates.io
++.rubygems.org
++.hub.docker.com
++.docker.com
++.docker.io
+
+# --- Google 服务 ---
++.google.com
++.googleapis.com
++.gstatic.com
++.google-analytics.com
++.googlevideo.com
++.youtube.com
++.ytimg.com
++.blogger.com
++.googleusercontent.com
+
+# --- 社交媒体 ---
++.twitter.com
++.x.com
++.twimg.com
++.facebook.com
++.fbcdn.net
++.instagram.com
++.cdninstagram.com
++.reddit.com
++.redditmedia.com
++.tumblr.com
++.pinterest.com
++.telegram.org
++.t.me
++.whatsapp.net
++.discord.com
++.discord.gg
++.discordapp.net
++.slack.com
+
+# --- 流媒体 ---
++.netflix.com
++.nflxvideo.net
++.nflximg.net
++.hulu.com
++.hbomax.com
++.max.com
++.disneyplus.com
++.spotify.com
++.scdn.co
++.applemusic.com
++.tidal.com
++.pandora.com
++.deezer.com
++.soundcloud.com
+
+# --- 科技 & 新闻 ---
++.medium.com
++.quora.com
++.wikipedia.org
++.wikimedia.org
++.wikidata.org
++.archive.org
++.arxiv.org
++.news.ycombinator.com
++.techcrunch.com
++.theverge.com
++.arstechnica.com
+
+# --- 云服务 & CDN ---
++.cloudflare.com
++.fastly.com
++.akamaihd.net
++.aws.amazon.com
++.amazonaws.com
++.azure.microsoft.com
++.azureedge.net
++.azure.com
++.gcp.com
++.firebaseio.com
++.vercel.app
++.netlify.app
++.herokuapp.com
++.fly.io
++.railway.app
+
+# --- 学术 & 研究 ---
++.scholar.google.com
++.sci-hub.se
++.semanticscholar.org
++.researchgate.net
++.academia.edu
