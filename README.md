@@ -1,52 +1,57 @@
 # Shawnxu Rules
 
-个人使用的 Mihomo/Clash 规则集，按域名分流。
+个人补充规则集，基于 [Loyalsoldier/clash-rules](https://github.com/Loyalsoldier/clash-rules) 之上，仅包含个人需要的额外域名。
 
 ## 规则文件
 
-| 文件 | 说明 | 策略 |
-|------|------|------|
-| [proxy.txt](proxy.txt) | 需要代理的域名 | PROXY |
-| [direct.txt](direct.txt) | 国内直连域名 | DIRECT |
-| [reject.txt](reject.txt) | 广告/跟踪/恶意域名 | REJECT |
+| 文件 | 说明 | 加载位置 |
+|------|------|----------|
+| [proxy.txt](proxy.txt) | 补充代理域名 | 放在 tld-not-cn 和 gfw 之前 |
+| [direct.txt](direct.txt) | 补充直连域名 | 放在 tld-not-cn 之前 |
+| [reject.txt](reject.txt) | 补充拒绝域名 | 放在 reject 之前 |
 
-## 使用方式
-
-在 Mihomo/Clash 配置文件中添加 rule-provider：
+## 接入配置
 
 ```yaml
 rule-providers:
-  shawnxu-proxy:
+  custom-proxy:
     type: http
     behavior: domain
     url: "https://raw.githubusercontent.com/shawnxustudio/shawnxu-rules/main/proxy.txt"
-    path: ./ruleset/shawnxu-proxy.yaml
+    path: ./ruleset/custom-proxy.yaml
     interval: 86400
 
-  shawnxu-direct:
+  custom-direct:
     type: http
     behavior: domain
     url: "https://raw.githubusercontent.com/shawnxustudio/shawnxu-rules/main/direct.txt"
-    path: ./ruleset/shawnxu-direct.yaml
+    path: ./ruleset/custom-direct.yaml
     interval: 86400
 
-  shawnxu-reject:
+  custom-reject:
     type: http
     behavior: domain
     url: "https://raw.githubusercontent.com/shawnxustudio/shawnxu-rules/main/reject.txt"
-    path: ./ruleset/shawnxu-reject.yaml
+    path: ./ruleset/custom-reject.yaml
     interval: 86400
 
 rules:
-  - RULE-SET,shawnxu-reject,REJECT
-  - RULE-SET,shawnxu-direct,DIRECT
-  - RULE-SET,shawnxu-proxy,PROXY
+  # 自定义规则（优先级最高）
+  - RULE-SET,custom-reject,REJECT
+  - RULE-SET,custom-direct,DIRECT
+  - RULE-SET,custom-proxy,PROXY
+
+  # Loyalsoldier 基础规则
+  - RULE-SET,applications,DIRECT
+  - RULE-SET,private,DIRECT
+  - RULE-SET,reject,REJECT
+  - RULE-SET,tld-not-cn,PROXY
+  - RULE-SET,gfw,PROXY
+  - RULE-SET,telegramcidr,PROXY
   - MATCH,DIRECT
 ```
 
-## 国内加速访问
-
-如果 `raw.githubusercontent.com` 访问不稳定，可使用 jsDelivr CDN：
+## 国内加速
 
 ```
 https://cdn.jsdelivr.net/gh/shawnxustudio/shawnxu-rules@main/proxy.txt
@@ -54,11 +59,10 @@ https://cdn.jsdelivr.net/gh/shawnxustudio/shawnxu-rules@main/direct.txt
 https://cdn.jsdelivr.net/gh/shawnxustudio/shawnxu-rules@main/reject.txt
 ```
 
-## 格式说明
+## 如何新增规则
 
-- `example.com` — 精确匹配该域名（不含子域名）
-- `+.example.com` — 匹配该域名及所有子域名
-
-## 贡献
-
-欢迎提交 PR 补充常用域名规则。
+1. 在 GitHub 网页上打开对应 .txt 文件
+2. 点编辑（✏️ 图标）
+3. 加一行 `+.你要的域名.com`
+4. Commit 保存即可
+5. Mihomo 到 interval 时间会自动拉取更新
