@@ -33,6 +33,8 @@ v1.uhdnow.com
 +.zox.show
 +.aca.best
 +.misakaf.org
+# pro.emby.moe 的视频推流域名（播放时 302 跳转过去）
++.xxlb.net
 
 # --- 其他站点 ---
 +.garysclub.sharewithyou.dpdns.org
