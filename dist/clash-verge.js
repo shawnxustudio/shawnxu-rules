@@ -42,6 +42,13 @@ const ruleProviders = {
     "path": "./ruleset/private.yaml",
     "interval": 86400
   },
+  "lancidr": {
+    "type": "http",
+    "behavior": "ipcidr",
+    "url": "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/lancidr.txt",
+    "path": "./ruleset/lancidr.yaml",
+    "interval": 86400
+  },
   "reject": {
     "type": "http",
     "behavior": "domain",
@@ -78,6 +85,7 @@ const rules = [
   "RULE-SET,custom-proxy,PROXY",
   "RULE-SET,applications,DIRECT",
   "RULE-SET,private,DIRECT",
+  "RULE-SET,lancidr,DIRECT,no-resolve",
   "RULE-SET,reject,REJECT",
   "RULE-SET,tld-not-cn,PROXY",
   "RULE-SET,gfw,PROXY",

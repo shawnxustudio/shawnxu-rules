@@ -14,11 +14,12 @@
 | 3 | [proxy.txt](proxy.txt) | PROXY | 本仓库 |
 | 4 | applications | DIRECT | Loyalsoldier（仅 Clash，iOS 无进程规则） |
 | 5 | private | DIRECT | Loyalsoldier |
-| 6 | reject | REJECT | Loyalsoldier |
-| 7 | tld-not-cn | PROXY | Loyalsoldier |
-| 8 | gfw | PROXY | Loyalsoldier |
-| 9 | telegramcidr | PROXY | Loyalsoldier |
-| 10 | 其余所有 | DIRECT | |
+| 6 | lancidr | DIRECT | Loyalsoldier（仅 Clash，Shadowrocket 由 `bypass-tun` 绕过局域网） |
+| 7 | reject | REJECT | Loyalsoldier |
+| 8 | tld-not-cn | PROXY | Loyalsoldier |
+| 9 | gfw | PROXY | Loyalsoldier |
+| 10 | telegramcidr | PROXY | Loyalsoldier |
+| 11 | 其余所有 | DIRECT | |
 
 > `tld-not-cn` 只包含 `.io`、`.gov` 等少数顶级域，**不含 `.com/.org/.net`**。这些域名不在 gfw 列表里时会直连，需要代理就加进 `proxy.txt`。
 

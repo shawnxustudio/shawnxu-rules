@@ -36,9 +36,11 @@ CUSTOM = [
 
 # Loyalsoldier 黑名单模式规则：(名称, behavior, 策略, 是否给 Shadowrocket 用)
 # applications 是 PROCESS-NAME 规则，iOS 上没有意义
+# lancidr 在 surge-rules 里没有，Shadowrocket 由 skip-proxy / bypass-tun 绕过局域网
 UPSTREAM = [
     ("applications", "classical", "DIRECT", False),
     ("private", "domain", "DIRECT", True),
+    ("lancidr", "ipcidr", "DIRECT", False),
     ("reject", "domain", "REJECT", True),
     ("tld-not-cn", "domain", PROXY, True),
     ("gfw", "domain", PROXY, True),
