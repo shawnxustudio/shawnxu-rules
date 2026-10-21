@@ -1,0 +1,118 @@
+# 由 scripts/build.py 自动生成，请勿手动修改，改根目录的 .txt 即可
+# 群晖 Mihomo 完整配置。只需把下方 <在这里填写你的订阅链接> 换成机场订阅。
+# 注意：填好订阅的文件只放在 NAS 上，不要提交回仓库。
+
+mixed-port: 7890
+allow-lan: true
+bind-address: "*"
+mode: rule
+log-level: info
+ipv6: false
+external-controller: 0.0.0.0:9090
+secret: "<在这里设置面板密码>"
+
+profile:
+  store-selected: true
+
+dns:
+  enable: true
+  ipv6: false
+  enhanced-mode: redir-host
+  default-nameserver: [223.5.5.5, 119.29.29.29]
+  nameserver: ["https://dns.alidns.com/dns-query", "https://doh.pub/dns-query"]
+
+proxy-providers:
+  airport:
+    type: http
+    url: "<在这里填写你的订阅链接>"
+    path: ./providers/airport.yaml
+    interval: 86400
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 300
+
+proxy-groups:
+  - name: PROXY
+    type: select
+    proxies: [AUTO, DIRECT]
+    use: [airport]
+    exclude-filter: "剩余|到期|过期|官网|流量|重置|expire|traffic"
+  - name: AUTO
+    type: url-test
+    use: [airport]
+    url: https://www.gstatic.com/generate_204
+    interval: 300
+    tolerance: 50
+    exclude-filter: "剩余|到期|过期|官网|流量|重置|expire|traffic"
+
+rule-providers:
+  custom-reject:
+    type: "http"
+    behavior: "domain"
+    format: "text"
+    url: "https://cdn.jsdelivr.net/gh/shawnxustudio/shawnxu-rules@main/dist/mihomo/reject.txt"
+    path: "./ruleset/custom-reject.txt"
+    interval: 86400
+  custom-direct:
+    type: "http"
+    behavior: "domain"
+    format: "text"
+    url: "https://cdn.jsdelivr.net/gh/shawnxustudio/shawnxu-rules@main/dist/mihomo/direct.txt"
+    path: "./ruleset/custom-direct.txt"
+    interval: 86400
+  custom-proxy:
+    type: "http"
+    behavior: "domain"
+    format: "text"
+    url: "https://cdn.jsdelivr.net/gh/shawnxustudio/shawnxu-rules@main/dist/mihomo/proxy.txt"
+    path: "./ruleset/custom-proxy.txt"
+    interval: 86400
+  applications:
+    type: "http"
+    behavior: "classical"
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/applications.txt"
+    path: "./ruleset/applications.yaml"
+    interval: 86400
+  private:
+    type: "http"
+    behavior: "domain"
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/private.txt"
+    path: "./ruleset/private.yaml"
+    interval: 86400
+  reject:
+    type: "http"
+    behavior: "domain"
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/reject.txt"
+    path: "./ruleset/reject.yaml"
+    interval: 86400
+  tld-not-cn:
+    type: "http"
+    behavior: "domain"
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/tld-not-cn.txt"
+    path: "./ruleset/tld-not-cn.yaml"
+    interval: 86400
+  gfw:
+    type: "http"
+    behavior: "domain"
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/gfw.txt"
+    path: "./ruleset/gfw.yaml"
+    interval: 86400
+  telegramcidr:
+    type: "http"
+    behavior: "ipcidr"
+    url: "https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/telegramcidr.txt"
+    path: "./ruleset/telegramcidr.yaml"
+    interval: 86400
+
+rules:
+  - RULE-SET,custom-reject,REJECT
+  - RULE-SET,custom-direct,DIRECT
+  - RULE-SET,custom-proxy,PROXY
+  - RULE-SET,applications,DIRECT
+  - RULE-SET,private,DIRECT
+  - RULE-SET,reject,REJECT
+  - RULE-SET,tld-not-cn,PROXY
+  - RULE-SET,gfw,PROXY
+  - RULE-SET,telegramcidr,PROXY,no-resolve
+  - MATCH,DIRECT

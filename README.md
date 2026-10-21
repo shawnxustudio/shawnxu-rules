@@ -1,68 +1,71 @@
 # Shawnxu Rules
 
-个人补充规则集，基于 [Loyalsoldier/clash-rules](https://github.com/Loyalsoldier/clash-rules) 之上，仅包含个人需要的额外域名。
+个人补充规则集，叠加在 [Loyalsoldier/clash-rules](https://github.com/Loyalsoldier/clash-rules)（Shadowrocket 用 [Loyalsoldier/surge-rules](https://github.com/Loyalsoldier/surge-rules)）之上，采用黑名单模式：命中规则的走代理，其余直连。
 
-## 规则文件
+- **个人规则**：只维护根目录的三个 `.txt`，GitHub Actions 自动生成各客户端的格式
+- **Loyalsoldier 规则**：直接远程引用，跟随上游每日更新，不复制进本仓库
 
-| 文件 | 说明 | 加载位置 |
-|------|------|----------|
-| [proxy.txt](proxy.txt) | 补充代理域名 | 放在 tld-not-cn 和 gfw 之前 |
-| [direct.txt](direct.txt) | 补充直连域名 | 放在 tld-not-cn 之前 |
-| [reject.txt](reject.txt) | 补充拒绝域名 | 放在 reject 之前 |
+## 规则顺序
 
-## 接入配置
+| 顺序 | 规则集 | 策略 | 来源 |
+|---|---|---|---|
+| 1 | [reject.txt](reject.txt) | REJECT | 本仓库 |
+| 2 | [direct.txt](direct.txt) | DIRECT | 本仓库 |
+| 3 | [proxy.txt](proxy.txt) | PROXY | 本仓库 |
+| 4 | applications | DIRECT | Loyalsoldier（仅 Clash，iOS 无进程规则） |
+| 5 | private | DIRECT | Loyalsoldier |
+| 6 | reject | REJECT | Loyalsoldier |
+| 7 | tld-not-cn | PROXY | Loyalsoldier |
+| 8 | gfw | PROXY | Loyalsoldier |
+| 9 | telegramcidr | PROXY | Loyalsoldier |
+| 10 | 其余所有 | DIRECT | |
 
-```yaml
-rule-providers:
-  custom-proxy:
-    type: http
-    behavior: domain
-    url: "https://raw.githubusercontent.com/shawnxustudio/shawnxu-rules/main/proxy.txt"
-    path: ./ruleset/custom-proxy.yaml
-    interval: 86400
+> `tld-not-cn` 只包含 `.io`、`.gov` 等少数顶级域，**不含 `.com/.org/.net`**。这些域名不在 gfw 列表里时会直连，需要代理就加进 `proxy.txt`。
 
-  custom-direct:
-    type: http
-    behavior: domain
-    url: "https://raw.githubusercontent.com/shawnxustudio/shawnxu-rules/main/direct.txt"
-    path: ./ruleset/custom-direct.yaml
-    interval: 86400
+## 生成的文件
 
-  custom-reject:
-    type: http
-    behavior: domain
-    url: "https://raw.githubusercontent.com/shawnxustudio/shawnxu-rules/main/reject.txt"
-    path: ./ruleset/custom-reject.yaml
-    interval: 86400
+| 文件 | 用途 |
+|---|---|
+| [dist/clash-verge.js](dist/clash-verge.js) | Clash Verge Rev 全局扩展脚本 |
+| [dist/mihomo.yaml](dist/mihomo.yaml) | 群晖 Mihomo 完整配置模板 |
+| [dist/shadowrocket.conf](dist/shadowrocket.conf) | Shadowrocket 配置 |
+| `dist/mihomo/*.txt`、`dist/shadowrocket/*.list` | 上面三个配置引用的个人规则集 |
 
-rules:
-  # 自定义规则（优先级最高）
-  - RULE-SET,custom-reject,REJECT
-  - RULE-SET,custom-direct,DIRECT
-  - RULE-SET,custom-proxy,PROXY
+## 接入
 
-  # Loyalsoldier 基础规则
-  - RULE-SET,applications,DIRECT
-  - RULE-SET,private,DIRECT
-  - RULE-SET,reject,REJECT
-  - RULE-SET,tld-not-cn,PROXY
-  - RULE-SET,gfw,PROXY
-  - RULE-SET,telegramcidr,PROXY
-  - MATCH,DIRECT
-```
+### 电脑：Clash Verge Rev
 
-## 国内加速
+1. 正常导入机场订阅
+2. 在「订阅」页找到「全局扩展脚本」，编辑，把 [dist/clash-verge.js](dist/clash-verge.js) 的内容整段粘贴进去并保存
+3. 选中订阅，让配置重新生效
 
-```
-https://cdn.jsdelivr.net/gh/shawnxustudio/shawnxu-rules@main/proxy.txt
-https://cdn.jsdelivr.net/gh/shawnxustudio/shawnxu-rules@main/direct.txt
-https://cdn.jsdelivr.net/gh/shawnxustudio/shawnxu-rules@main/reject.txt
-```
+脚本保留订阅里的节点，把分组换成 `PROXY`（手动选择）和 `AUTO`（自动测速），规则换成上表。之后加域名不用重新粘贴，客户端会按周期拉取新规则；只有规则顺序或分组变了才需要重新粘贴。
 
-## 如何新增规则
+### 群晖：Mihomo
 
-1. 在 GitHub 网页上打开对应 .txt 文件
-2. 点编辑（✏️ 图标）
-3. 加一行 `+.你要的域名.com`
-4. Commit 保存即可
-5. Mihomo 到 interval 时间会自动拉取更新
+1. 下载 [dist/mihomo.yaml](dist/mihomo.yaml)，改名为 `config.yaml`
+2. 把 `<在这里填写你的订阅链接>` 换成机场订阅，把 `<在这里设置面板密码>` 换成面板密码
+3. 放到 Mihomo 的配置目录（Docker 一般映射到 `/root/.config/mihomo`），重启容器
+
+**填好订阅的文件只放在 NAS 上，不要提交回仓库**，否则订阅会公开泄露。局域网设备把代理设为 `NAS的IP:7890` 即可使用。
+
+### 手机：Shadowrocket
+
+1. 首页照常添加机场订阅
+2. 「配置」页 → 右上角 `+` → 粘贴下面的地址 → 下载
+   ```
+   https://cdn.jsdelivr.net/gh/shawnxustudio/shawnxu-rules@main/dist/shadowrocket.conf
+   ```
+3. 点击下载好的配置 →「使用配置」
+
+规则里的 `PROXY` 就是首页选中的节点。Loyalsoldier 的 reject 列表接近 20 万条，如果手机上发现卡顿或耗电明显，可以在 Shadowrocket 里把那一条规则删掉。
+
+## 新增规则
+
+1. 在 GitHub 网页上打开 `proxy.txt`（或 `direct.txt` / `reject.txt`），点 ✏️ 编辑
+2. 加一行：`+.example.com` 匹配域名及所有子域名，`example.com` 只匹配这一个域名
+3. Commit 保存
+
+Actions 会自动生成 `dist/` 并刷新 jsDelivr 缓存，各客户端到更新周期（Clash 为 24 小时）后拿到新规则，想马上生效就在客户端里手动更新规则集。域名写错时构建会失败，`dist/` 保持不变，客户端不受影响。
+
+本地构建：`python scripts/build.py`

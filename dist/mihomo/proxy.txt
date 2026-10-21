@@ -1,0 +1,12 @@
+# 由 scripts/build.py 自动生成，请勿手动修改，改根目录的 .txt 即可
++.themoviedb.org
++.tmdb.org
++.thetvdb.com
++.fanart.tv
+frodo.douban.com
+api.telegram.org
+qyapi.weixin.qq.com
++.slack.com
++.pypi.org
++.github.com
++.githubusercontent.com

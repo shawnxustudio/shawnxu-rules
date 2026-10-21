@@ -1,24 +1,24 @@
-# 个人补充 - 代理域名
+# 个人补充 - 代理域名（优先级高于 Loyalsoldier 的所有规则）
 # 格式: +.example.com 匹配域名及所有子域名
 #      example.com   精确匹配
 #
-# 说明：仅放 Loyalsoldier 规则未覆盖的域名
-#       tld-not-cn 已覆盖大部分非 .cn 域名
-#       gfw 已覆盖被墙域名
-#       这里只放个人需要强制代理的 .cn 域名或其他漏网之鱼
+# 说明：放 Loyalsoldier 规则没送代理、但你需要代理的域名
+#       注意 tld-not-cn 只含 .io/.gov 等少数顶级域，不含 .com/.org/.net/.tv
+#       这类域名不在 gfw 里就会走 MATCH,DIRECT 直连
 
 # --- 影视刮削 (Emby/Jellyfin) ---
 +.themoviedb.org
 +.tmdb.org
 +.thetvdb.com
 +.fanart.tv
+frodo.douban.com
 
 # --- Telegram ---
 api.telegram.org
 
 # --- 消息通知 ---
+# 企业微信应用接口：走代理以使用固定的可信 IP
 qyapi.weixin.qq.com
-frodo.douban.com
 +.slack.com
 
 # --- 开发工具 ---
