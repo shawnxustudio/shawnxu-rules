@@ -65,3 +65,13 @@ qyapi.weixin.qq.com
 +.pypi.org
 +.github.com
 +.githubusercontent.com
+
+# --- Nintendo Switch（eShop、账号、联网检测、游戏下载）---
++.nintendo.net
++.nintendo.com
++.nintendo.co.jp
++.nintendo.jp
++.nintendo-europe.com
++.nintendo.com.hk
++.nintendowifi.net
+
