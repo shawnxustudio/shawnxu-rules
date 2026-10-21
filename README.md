@@ -68,6 +68,6 @@
 2. 加一行：`+.example.com` 匹配域名及所有子域名，`example.com` 只匹配这一个域名，`keyword:example` 匹配所有包含该关键词的域名（范围大，慎用）
 3. Commit 保存
 
-Actions 会自动生成 `dist/` 并刷新 jsDelivr 缓存，各客户端到更新周期（Clash 为 24 小时）后拿到新规则，想马上生效就在客户端里手动更新规则集。域名写错时构建会失败，`dist/` 保持不变，客户端不受影响。
+Actions 会自动生成 `dist/` 并刷新 jsDelivr 缓存，各客户端到更新周期后拿到新规则（Clash 的个人规则 1 小时、Loyalsoldier 规则 24 小时），想马上生效就在客户端里手动更新规则集。域名写错时构建会失败，`dist/` 保持不变，客户端不受影响。
 
 本地构建：`python scripts/build.py`

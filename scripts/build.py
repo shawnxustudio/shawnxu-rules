@@ -131,7 +131,8 @@ def mihomo_providers():
             "format": "text",
             "url": f"{SELF_CDN}/mihomo/{name}.list",
             "path": f"./ruleset/custom-{name}.list",
-            "interval": 86400,
+            # 个人规则文件很小、改得勤，1 小时拉一次
+            "interval": 3600,
         }
     for name, behavior, _, _ in UPSTREAM:
         providers[name] = {

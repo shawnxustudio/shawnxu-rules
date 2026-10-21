@@ -10,7 +10,7 @@ const ruleProviders = {
     "format": "text",
     "url": "https://cdn.jsdelivr.net/gh/shawnxustudio/shawnxu-rules@main/dist/mihomo/reject.list",
     "path": "./ruleset/custom-reject.list",
-    "interval": 86400
+    "interval": 3600
   },
   "custom-direct": {
     "type": "http",
@@ -18,7 +18,7 @@ const ruleProviders = {
     "format": "text",
     "url": "https://cdn.jsdelivr.net/gh/shawnxustudio/shawnxu-rules@main/dist/mihomo/direct.list",
     "path": "./ruleset/custom-direct.list",
-    "interval": 86400
+    "interval": 3600
   },
   "custom-proxy": {
     "type": "http",
@@ -26,7 +26,7 @@ const ruleProviders = {
     "format": "text",
     "url": "https://cdn.jsdelivr.net/gh/shawnxustudio/shawnxu-rules@main/dist/mihomo/proxy.list",
     "path": "./ruleset/custom-proxy.list",
-    "interval": 86400
+    "interval": 3600
   },
   "applications": {
     "type": "http",
