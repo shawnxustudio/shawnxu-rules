@@ -30,7 +30,8 @@
 | [dist/clash-verge.js](dist/clash-verge.js) | Clash Verge Rev 全局扩展脚本 |
 | [dist/mihomo.yaml](dist/mihomo.yaml) | 群晖 Mihomo 完整配置模板 |
 | [dist/shadowrocket.conf](dist/shadowrocket.conf) | Shadowrocket 配置 |
-| `dist/mihomo/*.txt`、`dist/shadowrocket/*.list` | 上面三个配置引用的个人规则集 |
+| `dist/mihomo/*.list`、`dist/shadowrocket/*.list` | 上面三个配置引用的个人规则集（classical 格式，支持关键词） |
+| `dist/mihomo/*.txt` | 旧版 domain 格式，不含关键词，仅为兼容尚未更新的配置 |
 
 ## 接入
 
@@ -64,7 +65,7 @@
 ## 新增规则
 
 1. 在 GitHub 网页上打开 `proxy.txt`（或 `direct.txt` / `reject.txt`），点 ✏️ 编辑
-2. 加一行：`+.example.com` 匹配域名及所有子域名，`example.com` 只匹配这一个域名
+2. 加一行：`+.example.com` 匹配域名及所有子域名，`example.com` 只匹配这一个域名，`keyword:example` 匹配所有包含该关键词的域名（范围大，慎用）
 3. Commit 保存
 
 Actions 会自动生成 `dist/` 并刷新 jsDelivr 缓存，各客户端到更新周期（Clash 为 24 小时）后拿到新规则，想马上生效就在客户端里手动更新规则集。域名写错时构建会失败，`dist/` 保持不变，客户端不受影响。

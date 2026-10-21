@@ -1,8 +1,14 @@
 #!/usr/bin/env python3
 """把 proxy.txt / direct.txt / reject.txt 构建成各客户端可用的规则和配置。
 
+源文件每行一条：
+  +.example.com    匹配域名及所有子域名
+  example.com      精确匹配
+  keyword:example  域名中包含该关键词即匹配
+
 输出到 dist/：
-  mihomo/*.txt          Mihomo text 格式规则集（Clash Verge / 群晖 Mihomo 共用）
+  mihomo/*.list         Mihomo classical 规则集（Clash Verge / 群晖 Mihomo 共用）
+  mihomo/*.txt          旧版 domain 规则集，不含关键词，仅为兼容未更新的配置
   shadowrocket/*.list   Shadowrocket RULE-SET 格式规则集
   mihomo.yaml           群晖 Mihomo 完整配置（订阅链接需在 NAS 上自行填写）
   clash-verge.js        Clash Verge Rev 全局扩展脚本
@@ -53,45 +59,58 @@ FINAL = "DIRECT"
 INFO_NODE = "剩余|到期|过期|官网|流量|重置|expire|traffic"
 
 DOMAIN_RE = re.compile(r"^(?=.{1,253}$)([a-z0-9_]([a-z0-9_-]{0,61}[a-z0-9_])?\.)*[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$")
+KEYWORD_RE = re.compile(r"^[a-z0-9._-]+$")
+
+# 规则种类 → 规则类型
+RULE_TYPE = {"suffix": "DOMAIN-SUFFIX", "exact": "DOMAIN", "keyword": "DOMAIN-KEYWORD"}
 
 
 def parse(path):
-    """返回 [(是否匹配子域名, 域名)]，遇到格式错误直接退出。"""
+    """返回 [(种类, 值)]，种类为 suffix / exact / keyword，遇到格式错误直接退出。"""
     entries, seen, errors = [], set(), []
     for no, raw in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
         line = raw.split("#", 1)[0].strip().lower()
         if not line:
             continue
-        suffix = line.startswith("+.")
-        domain = line[2:] if suffix else line
-        if not DOMAIN_RE.match(domain):
-            errors.append(f"{path.name}:{no}: 无法识别的域名 {raw.strip()!r}")
+        if line.startswith("keyword:"):
+            kind, value, valid = "keyword", line[8:].strip(), KEYWORD_RE
+        elif line.startswith("+."):
+            kind, value, valid = "suffix", line[2:], DOMAIN_RE
+        else:
+            kind, value, valid = "exact", line, DOMAIN_RE
+        if not valid.match(value):
+            errors.append(f"{path.name}:{no}: 无法识别的规则 {raw.strip()!r}")
             continue
-        if (suffix, domain) in seen:
+        if (kind, value) in seen:
             print(f"提示 {path.name}:{no}: 重复的 {line}，已忽略")
             continue
-        seen.add((suffix, domain))
-        entries.append((suffix, domain))
+        seen.add((kind, value))
+        entries.append((kind, value))
     if errors:
         sys.exit("\n".join(errors))
     return entries
 
 
-def covered_by(domain, suffixes):
-    parts = domain.split(".")
-    return next((s for s in (".".join(parts[i:]) for i in range(len(parts))) if s in suffixes), None)
+def matched_by(kind, value, entries):
+    """返回 entries 中会抢先匹配 value 的那条规则，没有则返回 None。"""
+    if kind == "keyword":
+        return next((f"keyword:{v}" for k, v in entries if k == "keyword" and v in value), None)
+    parts = value.split(".")
+    suffixes = {".".join(parts[i:]) for i in range(len(parts))}
+    for k, v in entries:
+        if (k == "keyword" and v in value) or (k == "suffix" and v in suffixes) or (k == "exact" and kind == "exact" and v == value):
+            return f"keyword:{v}" if k == "keyword" else v
+    return None
 
 
 def check_conflicts(rules):
-    """同一个域名出现在多个文件里时提示，优先级高的文件会生效。"""
+    """同一个域名被多个文件匹配时提示，优先级高的文件会生效。"""
     for i, (name, _) in enumerate(CUSTOM):
         for later, _ in CUSTOM[i + 1:]:
-            suffixes = {d for s, d in rules[name] if s}
-            exact = {d for s, d in rules[name] if not s}
-            for _, domain in rules[later]:
-                hit = covered_by(domain, suffixes) or (domain if domain in exact else None)
+            for kind, value in rules[later]:
+                hit = matched_by(kind, value, rules[name])
                 if hit:
-                    print(f"提示: {later}.txt 的 {domain} 已被 {name}.txt 的 {hit} 覆盖，以 {name} 为准")
+                    print(f"提示: {later}.txt 的 {value} 已被 {name}.txt 的 {hit} 覆盖，以 {name} 为准")
 
 
 def write(path, text):
@@ -108,10 +127,10 @@ def mihomo_providers():
     for name, _ in CUSTOM:
         providers[f"custom-{name}"] = {
             "type": "http",
-            "behavior": "domain",
+            "behavior": "classical",
             "format": "text",
-            "url": f"{SELF_CDN}/mihomo/{name}.txt",
-            "path": f"./ruleset/custom-{name}.txt",
+            "url": f"{SELF_CDN}/mihomo/{name}.list",
+            "path": f"./ruleset/custom-{name}.list",
             "interval": 86400,
         }
     for name, behavior, _, _ in UPSTREAM:
@@ -266,10 +285,12 @@ def main():
 
     for name, _ in CUSTOM:
         entries = rules[name]
+        classical = header("#") + "".join(f"{RULE_TYPE[k]},{v}\n" for k, v in entries)
+        write(DIST / "mihomo" / f"{name}.list", classical)
+        write(DIST / "shadowrocket" / f"{name}.list", classical)
         write(DIST / "mihomo" / f"{name}.txt",
-              header("#") + "".join(f"{'+.' if s else ''}{d}\n" for s, d in entries))
-        write(DIST / "shadowrocket" / f"{name}.list",
-              header("#") + "".join(f"{'DOMAIN-SUFFIX' if s else 'DOMAIN'},{d}\n" for s, d in entries))
+              header("#") + "# 旧版格式，不含关键词规则，请改用同目录的 .list\n"
+              + "".join(f"{'+.' if k == 'suffix' else ''}{v}\n" for k, v in entries if k != "keyword"))
 
     write(DIST / "mihomo.yaml", build_mihomo_yaml())
     write(DIST / "clash-verge.js", build_clash_verge_js())

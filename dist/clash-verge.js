@@ -6,26 +6,26 @@
 const ruleProviders = {
   "custom-reject": {
     "type": "http",
-    "behavior": "domain",
+    "behavior": "classical",
     "format": "text",
-    "url": "https://cdn.jsdelivr.net/gh/shawnxustudio/shawnxu-rules@main/dist/mihomo/reject.txt",
-    "path": "./ruleset/custom-reject.txt",
+    "url": "https://cdn.jsdelivr.net/gh/shawnxustudio/shawnxu-rules@main/dist/mihomo/reject.list",
+    "path": "./ruleset/custom-reject.list",
     "interval": 86400
   },
   "custom-direct": {
     "type": "http",
-    "behavior": "domain",
+    "behavior": "classical",
     "format": "text",
-    "url": "https://cdn.jsdelivr.net/gh/shawnxustudio/shawnxu-rules@main/dist/mihomo/direct.txt",
-    "path": "./ruleset/custom-direct.txt",
+    "url": "https://cdn.jsdelivr.net/gh/shawnxustudio/shawnxu-rules@main/dist/mihomo/direct.list",
+    "path": "./ruleset/custom-direct.list",
     "interval": 86400
   },
   "custom-proxy": {
     "type": "http",
-    "behavior": "domain",
+    "behavior": "classical",
     "format": "text",
-    "url": "https://cdn.jsdelivr.net/gh/shawnxustudio/shawnxu-rules@main/dist/mihomo/proxy.txt",
-    "path": "./ruleset/custom-proxy.txt",
+    "url": "https://cdn.jsdelivr.net/gh/shawnxustudio/shawnxu-rules@main/dist/mihomo/proxy.list",
+    "path": "./ruleset/custom-proxy.list",
     "interval": 86400
   },
   "applications": {

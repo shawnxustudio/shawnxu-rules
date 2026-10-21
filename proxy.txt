@@ -1,6 +1,7 @@
 # 个人补充 - 代理域名（优先级高于 Loyalsoldier 的所有规则）
 # 格式: +.example.com 匹配域名及所有子域名
 #      example.com   精确匹配
+#      keyword:abc   域名中包含 abc 即匹配（范围大，慎用）
 #
 # 说明：放 Loyalsoldier 规则没送代理、但你需要代理的域名
 #       注意 tld-not-cn 只含 .io/.gov 等少数顶级域，不含 .com/.org/.net/.tv
@@ -16,6 +17,26 @@
 t.audiences.me
 +.hhan.club
 +.hhanclub.net
++.hdhive.org
+keyword:audiences
+keyword:hhanclub
+keyword:m-team
+keyword:hdkylin
+keyword:icc2022
+keyword:sunnypt
+keyword:magpie
+keyword:invites
+
+# --- Emby 服务器 ---
+keyword:emby
+v1.uhdnow.com
++.zox.show
++.aca.best
++.misakaf.org
+
+# --- 其他站点 ---
++.garysclub.sharewithyou.dpdns.org
+keyword:sudugu
 
 # --- TikTok（主域名已在 gfw 里，这里补 CDN）---
 +.ibytedtos.com

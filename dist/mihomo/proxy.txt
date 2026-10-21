@@ -1,4 +1,5 @@
 # 由 scripts/build.py 自动生成，请勿手动修改，改根目录的 .txt 即可
+# 旧版格式，不含关键词规则，请改用同目录的 .list
 +.themoviedb.org
 +.tmdb.org
 +.thetvdb.com
@@ -6,6 +7,12 @@
 t.audiences.me
 +.hhan.club
 +.hhanclub.net
++.hdhive.org
+v1.uhdnow.com
++.zox.show
++.aca.best
++.misakaf.org
++.garysclub.sharewithyou.dpdns.org
 +.ibytedtos.com
 +.ibyteimg.com
 +.byteoversea.com

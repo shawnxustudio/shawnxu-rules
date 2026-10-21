@@ -1,6 +1,7 @@
 # 个人补充 - 直连域名（优先级高于代理规则和 Loyalsoldier 规则）
 # 格式: +.example.com 匹配域名及所有子域名
 #      example.com   精确匹配
+#      keyword:abc   域名中包含 abc 即匹配（范围大，慎用）
 #
 # 说明：放会被 gfw / tld-not-cn 送代理、但你希望直连的域名
 #       （没命中任何规则的域名默认就是直连，不用写在这里）

@@ -1,6 +1,7 @@
 # 个人补充 - 拒绝域名
 # 格式: +.example.com 匹配域名及所有子域名
 #      example.com   精确匹配
+#      keyword:abc   域名中包含 abc 即匹配（范围大，慎用）
 #
 # 说明：仅放 Loyalsoldier 的 reject 未覆盖的广告/追踪域名
 #
