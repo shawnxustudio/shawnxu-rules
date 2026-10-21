@@ -28,3 +28,10 @@ qyapi.weixin.qq.com
 +.pypi.org
 +.github.com
 +.githubusercontent.com
++.nintendo.net
++.nintendo.com
++.nintendo.co.jp
++.nintendo.jp
++.nintendo-europe.com
++.nintendo.com.hk
++.nintendowifi.net
