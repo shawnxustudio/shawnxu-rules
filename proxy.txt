@@ -11,7 +11,24 @@
 +.tmdb.org
 +.thetvdb.com
 +.fanart.tv
-frodo.douban.com
+
+# --- PT 站点 ---
+t.audiences.me
++.hhan.club
++.hhanclub.net
+
+# --- TikTok（主域名已在 gfw 里，这里补 CDN）---
++.ibytedtos.com
++.ibyteimg.com
++.byteoversea.com
++.muscdn.com
++.sgpstatp.com
++.ttwstatic.com
+
+# --- Google / LinkedIn 漏网域名 ---
+# Google Play 中国区服务，.cn 域名默认直连
++.services.googleapis.cn
++.licdn.com
 
 # --- Telegram ---
 api.telegram.org
