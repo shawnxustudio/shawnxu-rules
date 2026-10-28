@@ -26,6 +26,27 @@ keyword:icc2022
 keyword:sunnypt
 keyword:magpie
 keyword:invites
+# --- PT 站点（补全，2026-10-28）---
++.pterclub.net
++.springsunday.net
++.uhddolby.com
++.keepfrds.com
++.qingwapt.com
++.star-space.net
++.zmpt.cc
++.greatposterwall.com
++.ubits.club
++.ourbits.club
++.piggo.me
++.ptchdbits.co
++.tjupt.org
++.torrentleech.me
++.hdhome.org
++.aither.cc
+
+
+
+
 
 # --- Emby 服务器 ---
 keyword:emby
